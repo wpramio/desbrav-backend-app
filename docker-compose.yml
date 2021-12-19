@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  app:
+  dev:
     build:
       context: .
       dockerfile: Dockerfile
@@ -30,11 +30,9 @@ services:
     image: redis:5.0.7
 
   sidekiq:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: desbrav-backend-app_dev:latest
     depends_on:
-      - app
+      - dev
       - database
       - redis
     volumes:

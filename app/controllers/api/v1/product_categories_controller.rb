@@ -2,6 +2,7 @@ module Api
   module V1
     class ProductCategoriesController < ApplicationController
       before_action :set_product_category, only: %i[show update destroy]
+      before_action :render_error_if_not_found, only: %i[show update destroy]
 
       # GET /product_categories
       # GET /product_categories.json
@@ -12,9 +13,6 @@ module Api
       # GET /product_categories/1
       # GET /product_categories/1.json
       def show
-        unless @product_category
-          render json: { status: 404, error: :not_found }, status: :not_found
-        end
       end
 
       # POST /product_categories
@@ -45,11 +43,30 @@ module Api
         @product_category.destroy
       end
 
+      # GET /product_categories/:product_category_id/products
+      def products
+        @product_category = ProductCategory.find_by(id: params[:product_category_id]) ||
+                            ProductCategory.find_by(ref_code: params[:product_category_id].to_s)
+
+        if @product_category.nil?
+          render json: { status: 404, error: 'Product category not found' },
+                 status: :not_found and return
+        end
+
+        @products = @product_category.products
+        render 'api/v1/products/index'
+      end
+
       private
 
       # Use callbacks to share common setup or constraints between actions.
       def set_product_category
-        @product_category = ProductCategory.find(params[:id])
+        @product_category = ProductCategory.find_by(id: params[:id]) ||
+                            ProductCategory.find_by(ref_code: params[:id])
+      end
+
+      def render_error_if_not_found
+        render json: { status: 404, error: :not_found }, status: :not_found if @product_category.nil?
       end
 
       # Only allow a list of trusted parameters through.

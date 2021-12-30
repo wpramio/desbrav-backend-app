@@ -42,6 +42,13 @@ module Api
         @client.destroy
       end
 
+      def internal_contacts
+        @client = Client.find(params[:client_id])
+
+        @internal_contacts = @client.internal_contacts
+        render 'api/v1/internal_contacts/index'
+      end
+
       private
 
       # Use callbacks to share common setup or constraints between actions.

@@ -4,8 +4,11 @@ Rails.application.routes.draw do
       resources :users do
         get 'clients'
       end
-      resources :clients
+      resources :clients do
+        get 'internal_contacts'
+      end
       resources :internal_contacts
+
       resources :product_categories do
         get 'products'
       end

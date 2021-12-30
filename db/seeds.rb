@@ -54,6 +54,25 @@ Client.create(
   ]
 )
 
+InternalContact.create(
+  [
+    {
+      name: 'João Contatini',
+      email: 'joao@arezzo.com',
+      role: 'Gerente de Fornecedores',
+      phone: '(51) 998765432',
+      client: Client.find_by(company_name: 'Arezzo')
+    },
+    {
+      name: 'Maria Contatini',
+      email: 'maria@beirario.com',
+      role: 'Chefe de Insumos',
+      phone: '(51) 912345678',
+      client: Client.find_by(company_name: 'Beira Rio')
+    }
+  ]
+)
+
 5.times do
   ProductCategory.create(
     {

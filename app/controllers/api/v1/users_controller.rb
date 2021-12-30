@@ -42,6 +42,18 @@ module Api
         @user.destroy
       end
 
+      def clients
+        @user = User.find_by(id: params[:user_id])
+
+        if @user.nil?
+          render json: { status: 404, error: 'User not found' },
+                 status: :not_found and return
+        end
+
+        @clients = @user.clients
+        render 'api/v1/clients/index'
+      end
+
       private
 
       # Use callbacks to share common setup or constraints between actions.

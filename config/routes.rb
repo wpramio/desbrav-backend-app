@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   namespace 'api', defaults: { format: 'json' } do
     namespace 'v1' do
-      resources :users
+      resources :users do
+        get 'clients'
+      end
       resources :clients
       resources :product_categories do
-        get 'products', to: 'product_categories#products'
+        get 'products'
       end
       resources :products
     end

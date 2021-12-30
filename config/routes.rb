@@ -5,6 +5,7 @@ Rails.application.routes.draw do
         get 'clients'
       end
       resources :clients
+      resources :internal_contacts
       resources :product_categories do
         get 'products'
       end

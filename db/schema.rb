@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_30_012944) do
+ActiveRecord::Schema.define(version: 2021_12_30_025550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(version: 2021_12_30_012944) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["representative_id"], name: "index_clients_on_representative_id"
+  end
+
+  create_table "internal_contacts", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "role"
+    t.string "phone"
+    t.bigint "client_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_id"], name: "index_internal_contacts_on_client_id"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -53,5 +64,6 @@ ActiveRecord::Schema.define(version: 2021_12_30_012944) do
   end
 
   add_foreign_key "clients", "users", column: "representative_id"
+  add_foreign_key "internal_contacts", "clients"
   add_foreign_key "products", "product_categories"
 end

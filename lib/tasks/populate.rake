@@ -4,16 +4,18 @@ namespace :db do
     create_users
     create_clients
     create_internal_contacts
+    create_contact_events
     create_product_categories
     create_products
   end
 
   namespace :populate do
-    desc 'Create fake users, clients and internal contacts.'
+    desc 'Create fake users, clients, internal contacts and contact events.'
     task representative_module: :environment do
       create_users
       create_clients
       create_internal_contacts
+      create_contact_events
     end
 
     desc 'Create fake product categories and products.'
@@ -35,6 +37,11 @@ namespace :db do
     desc 'Create fake internal contacts.'
     task internal_contacts: :environment do
       create_internal_contacts
+    end
+
+    desc 'Create fake contact events.'
+    task contact_events: :environment do
+      create_contact_events
     end
 
     desc 'Create fake product categories.'
@@ -124,6 +131,28 @@ def create_internal_contacts
         role: 'Chefe de Insumos',
         phone: '(51) 912345678',
         client: Client.find_by(company_name: 'Beira Rio')
+      }
+    ]
+  )
+end
+
+def create_contact_events
+  puts '* Creating 2 contact events'
+  ContactEvent.create(
+    [
+      {
+        contact_type: 'visita',
+        internal_contact: InternalContact.find_by(name: 'João Contatini'),
+        client: Client.find_by(company_name: 'Arezzo'),
+        representative: User.find_by(name: 'Matheus Nekel'),
+        occurred_at: Time.now
+      },
+      {
+        contact_type: 'whatsapp',
+        internal_contact: InternalContact.find_by(name: 'Maria Contatini'),
+        client: Client.find_by(company_name: 'Beira Rio'),
+        representative: User.find_by(name: 'Alessandro Cigolini'),
+        occurred_at: Time.now
       }
     ]
   )

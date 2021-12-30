@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         get 'internal_contacts'
       end
       resources :internal_contacts
+      resources :contact_events
 
       resources :product_categories do
         get 'products'

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contact_type: 
+  internal_contact: one
+  client: one
+  representative: one
+  occurred_at: 2021-12-30 17:22:02
+
+two:
+  contact_type: 
+  internal_contact: two
+  client: two
+  representative: two
+  occurred_at: 2021-12-30 17:22:02

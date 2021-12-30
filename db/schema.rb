@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_30_025550) do
+ActiveRecord::Schema.define(version: 2021_12_30_172202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 2021_12_30_025550) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["representative_id"], name: "index_clients_on_representative_id"
+  end
+
+  create_table "contact_events", force: :cascade do |t|
+    t.string "contact_type"
+    t.bigint "internal_contact_id", null: false
+    t.bigint "client_id", null: false
+    t.bigint "representative_id", null: false
+    t.datetime "occurred_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_id"], name: "index_contact_events_on_client_id"
+    t.index ["internal_contact_id"], name: "index_contact_events_on_internal_contact_id"
+    t.index ["representative_id"], name: "index_contact_events_on_representative_id"
   end
 
   create_table "internal_contacts", force: :cascade do |t|
@@ -64,6 +77,9 @@ ActiveRecord::Schema.define(version: 2021_12_30_025550) do
   end
 
   add_foreign_key "clients", "users", column: "representative_id"
+  add_foreign_key "contact_events", "clients"
+  add_foreign_key "contact_events", "internal_contacts"
+  add_foreign_key "contact_events", "users", column: "representative_id"
   add_foreign_key "internal_contacts", "clients"
   add_foreign_key "products", "product_categories"
 end

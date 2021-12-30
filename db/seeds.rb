@@ -22,6 +22,38 @@ User.create(
   ]
 )
 
+Client.create(
+  [
+    {
+      company_name: 'Arezzo',
+      production_capacity: 'De 1000 até 2500 pares',
+      pay_for_shipping: true,
+      payment_condition: 'Parcelado em 12x sem juros',
+      representative: User.find_by(name: 'Matheus Nekel')
+    },
+    {
+      company_name: 'Grendene',
+      production_capacity: 'De 2500 até 5000 pares',
+      pay_for_shipping: false,
+      payment_condition: 'À vista',
+      representative: User.find_by(name: 'Matheus Nekel')
+    },
+    {
+      company_name: 'Beira Rio',
+      production_capacity: 'De 5000 até 10000 pares',
+      pay_for_shipping: true,
+      payment_condition: 'Parcelado em 24x sem juros',
+      representative: User.find_by(name: 'Alessandro Cigolini')
+    },
+    {
+      company_name: 'Hering',
+      production_capacity: 'De 2500 até 5000 pares',
+      pay_for_shipping: false,
+      payment_condition: 'Parcelado em 6x sem juros'
+    }
+  ]
+)
+
 5.times do
   ProductCategory.create(
     {

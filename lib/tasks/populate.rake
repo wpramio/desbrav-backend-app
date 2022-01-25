@@ -5,6 +5,9 @@ namespace :db do
     create_clients
     create_internal_contacts
     create_contact_events
+    create_sample_orders
+    create_quote_orders
+    create_development_orders
     create_product_categories
     create_products
   end
@@ -42,6 +45,21 @@ namespace :db do
     desc 'Create fake contact events.'
     task contact_events: :environment do
       create_contact_events
+    end
+
+    desc 'Create fake sample orders.'
+    task sample_orders: :environment do
+      create_sample_orders
+    end
+
+    desc 'Create fake quote orders.'
+    task sample_orders: :environment do
+      create_quote_orders
+    end
+
+    desc 'Create fake development orders.'
+    task sample_orders: :environment do
+      create_development_orders
     end
 
     desc 'Create fake product categories.'
@@ -153,6 +171,60 @@ def create_contact_events
         client: Client.find_by(company_name: 'Beira Rio'),
         representative: User.find_by(name: 'Alessandro Cigolini'),
         occurred_at: Time.now
+      }
+    ]
+  )
+end
+
+def create_sample_orders
+  puts '* Creating 2 sample orders'
+  Order.create(
+    [
+      {
+        contact_event: ContactEvent.first,
+        order_type: 'sample',
+        status: 'production'
+      },
+      {
+        contact_event: ContactEvent.second,
+        order_type: 'sample',
+        status: 'on-hold'
+      }
+    ]
+  )
+end
+
+def create_quote_orders
+  puts '* Creating 2 quote orders'
+  Order.create(
+    [
+      {
+        contact_event: ContactEvent.first,
+        order_type: 'quote',
+        status: 'production'
+      },
+      {
+        contact_event: ContactEvent.second,
+        order_type: 'quote',
+        status: 'on-hold'
+      }
+    ]
+  )
+end
+
+def create_development_orders
+  puts '* Creating 2 development orders'
+  Order.create(
+    [
+      {
+        contact_event: ContactEvent.first,
+        order_type: 'development',
+        status: 'production'
+      },
+      {
+        contact_event: ContactEvent.second,
+        order_type: 'development',
+        status: 'on-hold'
       }
     ]
   )

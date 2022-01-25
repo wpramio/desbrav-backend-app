@@ -42,6 +42,13 @@ module Api
         @contact_event.destroy
       end
 
+      def orders
+        @contact_event = ContactEvent.find(params[:contact_event_id])
+
+        @orders = @contact_event.orders
+        render 'api/v1/orders/index'
+      end
+
       private
 
       # Use callbacks to share common setup or constraints between actions.

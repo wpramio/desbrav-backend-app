@@ -11,7 +11,10 @@ Rails.application.routes.draw do
       resources :contact_events do
         get 'orders'
       end
-      resources :orders
+      resources :orders do
+        get 'items'
+      end
+      resources :order_items
 
       resources :product_categories do
         get 'products'

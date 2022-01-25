@@ -42,6 +42,13 @@ module Api
         @order.destroy
       end
 
+      def items
+        @order = Order.find(params[:order_id])
+
+        @order_items = @order.items
+        render 'api/v1/order_items/index'
+      end
+
       private
 
       # Use callbacks to share common setup or constraints between actions.

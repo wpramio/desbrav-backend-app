@@ -10,6 +10,7 @@ namespace :db do
     create_development_orders
     create_product_categories
     create_products
+    create_order_items
   end
 
   namespace :populate do
@@ -70,6 +71,11 @@ namespace :db do
     desc 'Create fake products.'
     task products: :environment do
       create_products
+    end
+
+    desc 'Create fake order items.'
+    task order_items: :environment do
+      create_order_items
     end
   end
 end
@@ -269,6 +275,77 @@ def create_products(quantity = 3, product_category: :all)
           product_category: product_category
         }
       )
+    end
+  end
+end
+
+def create_order_items(items_quantity = 3, order: :all)
+  products = Product.ids
+  items_qty = items_quantity.clamp(0, products.count)
+  if order.instance_of?(Order)
+    puts "* Creating #{items_qty} items for order ##{order.id}"
+    items_qty.times do
+      order.items.create(
+        {
+          product: Product.find(products.delete(products.sample)),
+          quantity: rand(1..3)
+        }
+      )
+    end
+  else
+    case order
+    when :all
+      puts "* Creating #{items_qty} items for each order"
+      Order.find_each do |ord|
+        items_qty.times do
+          ord.items.create(
+            {
+              product: Product.find(products.delete(products.sample)),
+              quantity: rand(1..3)
+            }
+          )
+        end
+        products = Product.ids
+      end
+    when :sample
+      puts "* Creating #{items_qty} items for each sample order"
+      Order.sample_orders.find_each do |ord|
+        items_qty.times do
+          ord.items.create(
+            {
+              product: Product.find(products.delete(products.sample)),
+              quantity: rand(1..3)
+            }
+          )
+        end
+        products = Product.ids
+      end
+    when :quote
+      puts "* Creating #{items_qty} items for each quote order"
+      Order.quote_orders.find_each do |ord|
+        items_qty.times do
+          ord.items.create(
+            {
+              product: Product.find(products.delete(products.sample)),
+              quantity: rand(1..3)
+            }
+          )
+        end
+        products = Product.ids
+      end
+    when :development
+      puts "* Creating #{items_qty} items for each development order"
+      Order.development_orders.find_each do |ord|
+        items_qty.times do
+          ord.items.create(
+            {
+              product: Product.find(products.delete(products.sample)),
+              quantity: rand(1..3)
+            }
+          )
+        end
+        products = Product.ids
+      end
     end
   end
 end
